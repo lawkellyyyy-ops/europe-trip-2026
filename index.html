@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Europe 2026 Masterplan</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Playfair Display', 'serif'] },
+          colors: { brand: { blue: '#8EB8C9', green: '#A3C4A8', gold: '#D4AF37', cream: '#FDFBF7', teal: '#2c6e63' } }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { background-color: #FDFBF7; -webkit-tap-highlight-color: transparent; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .glass-tab-bar { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); }
+    .flight-divider { position: relative; border-top: 2px solid rgba(255,255,255,0.3); margin: 20px 0; }
+    .flight-divider::after { content: '✈'; position: absolute; top: -12px; right: 0; color: white; font-size: 14px; }
+    [v-cloak] { display: none; }
+  </style>
+</head>
+<body class="text-gray-800 antialiased font-sans pb-24">
+  <div id="app" v-cloak>
+    <header class="relative w-full">
+      <img src="top banner.jpg" alt="Europe Trip Banner" class="w-full h-[250px] object-cover block shadow-inner">
+      <div class="absolute bottom-10 right-4 flex space-x-2 z-20">
+        <button v-for="tab in tabs" :key="tab.id" @click="currentTab = tab.id"
+          class="flex items-center justify-center w-10 h-10 rounded-full shadow-md transition-all duration-300"
+          :class="currentTab === tab.id ? 'bg-brand-gold text-white' : 'bg-white/90 text-gray-600'">
+          <i :class="tab.icon"></i>
+        </button>
+      </div>
+    </header>
+
+    <main class="relative z-10 bg-brand-cream rounded-t-[30px] -mt-6 min-h-screen px-4 pt-6">
+      <div v-show="currentTab === 'itinerary'">
+        <h1 class="text-2xl font-serif font-semibold text-gray-800 mb-1">L'Itinéraire</h1>
+        <p class="text-[10px] text-brand-gold uppercase tracking-widest mb-4">4 Travellers · 1 Senior · 12 Days</p>
+        
+        <div class="flex overflow-x-auto hide-scrollbar space-x-3 mb-6 pb-2">
+          <button v-for="(day, index) in itineraryDays" :key="index" @click="selectDate(index)"
+            class="flex flex-col items-center min-w-[70px] py-2 px-3 rounded-2xl transition-colors border"
+            :class="selectedDateIndex === index ? 'bg-brand-blue text-white border-brand-blue' : 'bg-white text-gray-500 border-gray-200'">
+            <span class="text-xs font-semibold uppercase">{{ day.weekday }}</span>
+            <span class="text-xl font-bold font-serif">{{ day.date }}</span>
+          </button>
+        </div>
+
+        <div class="bg-white rounded-2xl p-4 shadow-sm flex items-center justify-between mb-6 border border-gray-100">
+          <div>
+            <p class="text-sm text-gray-500">{{ currentDayData.city }} Weather</p>
+            <p class="text-2xl font-semibold font-serif">{{ weather.temp }}°C</p>
+          </div>
+          <div class="text-4xl" :class="weather.color"><i :class="weather.icon"></i></div>
+        </div>
+
+        <div class="space-y-4 relative">
+          <div class="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-100 z-0"></div>
+          <div v-for="(item, index) in currentDayData.events" :key="item.id" class="relative z-10">
+            <div v-if="item.transportTime" class="pl-14 pb-4 flex items-center space-x-2 text-xs text-brand-gold font-medium">
+              <i :class="getTransportIcon(item.transportType)"></i>
+              <span>{{ item.transportTime }} mins</span>
+              <span v-if="item.price" class="text-gray-400 font-normal">({{ item.price }})</span>
+            </div>
+
+            <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 ml-12 relative">
+              <div class="absolute -left-8 top-5 w-4 h-4 rounded-full border-4 border-white shadow-sm" :class="getTypeColor(item.type)"></div>
+              <div class="flex justify-between items-start mb-2">
+                <div class="flex-1">
+                  <div class="flex items-center space-x-2">
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">{{ item.time }}</span>
+                    <h3 class="font-semibold text-gray-800 leading-tight">{{ item.name }}</h3>
+                  </div>
+                  <p v-if="item.localName" class="text-xs text-gray-400 mt-0.5">{{ item.localName }}</p>
+                </div>
+              </div>
+
+              <div v-if="item.type === 'flight'" class="mt-3 bg-brand-teal text-white rounded-xl p-4 shadow-md">
+                <div class="flex justify-between items-center text-sm font-semibold mb-1">
+                  <span>{{ item.flightNo }}</span> <span class="text-xs font-normal opacity-80">{{ item.duration }}</span>
+                </div>
+                <div class="flex justify-between items-end mt-2">
+                  <div class="text-left"><p class="text-xl font-bold">{{ item.departTime }}</p><p class="text-xs opacity-80">{{ item.departAirport }}</p></div>
+                  <div class="flex-1 px-4"><div class="flight-divider"></div></div>
+                  <div class="text-right"><p class="text-xl font-bold">{{ item.arriveTime }}</p><p class="text-xs opacity-80">{{ item.arriveAirport }}</p></div>
+                </div>
+              </div>
+
+              <div v-else class="text-sm text-gray-600 space-y-1">
+                <p v-if="item.notes" class="bg-gray-50 p-2 rounded-lg mt-2 italic text-gray-500 text-xs">{{ item.notes }}</p>
+              </div>
+
+              <div class="mt-3 pt-3 border-t border-gray-100 flex justify-end space-x-3">
+                <a :href="'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(item.name + ' ' + currentDayData.city)" target="_blank" class="text-brand-blue text-xs flex items-center"><i class="fa-solid fa-location-arrow mr-1"></i> Maps</a>
+                <a :href="'uber://?action=setPickup&dropoff[formatted_address]=' + encodeURIComponent(item.name)" class="text-black text-xs flex items-center"><i class="fa-brands fa-uber mr-1"></i> Uber</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </main>
+  </div>
+
+  <script>
+    const { createApp, ref, computed, onMounted } = Vue;
+    const fullItinerary = [
+      { weekday: 'Sat', date: '2', city: 'Brussels', events: [
+          { id: 101, type: 'flight', time: '00:45', name: 'CX 275 departs HKG', flightNo: 'CX 275', duration: '13h 40m', departTime: '00:45', departAirport: 'HKG', arriveTime: '08:25', arriveAirport: 'BRU' },
+          { id: 102, type: 'hotel', time: '09:30', name: 'OPO Hotel', transportType: 'uber', transportTime: '20', price: '€35-45', notes: 'Drop bags, freshen up' },
+          { id: 103, type: 'food', time: '10:30', name: 'Brunch: Woodpecker 47', transportType: 'walk', transportTime: '5', notes: 'Try Peck Special or Magic Mushroom waffle' },
+          { id: 104, type: 'attraction', time: '12:00', name: 'Grand Place', localName: '布魯塞爾大廣場', transportType: 'walk', transportTime: '2' },
+          { id: 105, type: 'shopping', time: '12:30', name: 'Delvaux', transportType: 'walk', transportTime: '1', notes: 'World\'s oldest luxury leather goods house' }
+      ]},
+      { weekday: 'Sun', date: '3', city: 'Amsterdam', events: [
+          { id: 201, type: 'flight', time: '08:22', name: 'Eurostar 9305', flightNo: 'EST 9305', duration: '2h 25m', departTime: '08:22', departAirport: 'BRU', arriveTime: '10:47', arriveAirport: 'AMS' },
+          { id: 202, type: 'hotel', time: '11:15', name: 'Renaissance Amsterdam Hotel', transportType: 'uber', transportTime: '10', price: '€10' },
+          { id: 203, type: 'food', time: '12:00', name: 'Lunch: Jordaan', transportType: 'walk', transportTime: '15' }
+      ]},
+      { weekday: 'Mon', date: '4', city: 'Amsterdam', events: [
+          { id: 301, type: 'attraction', time: '09:00', name: 'Keukenhof + Canal Cruise', transportType: 'walk', transportTime: '10', notes: '5.5 hrs at gardens (BOOKED)' },
+          { id: 302, type: 'attraction', time: '19:30', name: 'Remembrance Day', transportType: 'walk', transportTime: '15', notes: 'Dam Square ceremony' }
+      ]},
+      { weekday: 'Tue', date: '5', city: 'Amsterdam', events: [
+          { id: 401, type: 'attraction', time: '08:30', name: 'Zaanse Schans + Giethoorn', transportType: 'walk', transportTime: '10', notes: 'Full day tour (BOOKED)' }
+      ]},
+      { weekday: 'Wed', date: '6', city: 'Amsterdam', events: [
+          { id: 501, type: 'attraction', time: '09:15', name: 'Rijksmuseum', transportType: 'uber', transportTime: '10' },
+          { id: 502, type: 'attraction', time: '13:15', name: 'Albert Cuyp Market', transportType: 'uber', transportTime: '5', notes: 'Best fresh stroopwafels!' },
+          { id: 503, type: 'attraction', time: '15:00', name: 'Van Gogh Museum', transportType: 'uber', transportTime: '5' }
+      ]},
+      { weekday: 'Thu', date: '7', city: 'Paris', events: [
+          { id: 601, type: 'flight', time: '13:10', name: 'Eurostar 9352', flightNo: 'EST 9352', duration: '3h 38m', departTime: '13:10', departAirport: 'AMS', arriveTime: '16:48', arriveAirport: 'PAR' },
+          { id: 602, type: 'hotel', time: '17:45', name: 'Citadines Les Halles', transportType: 'uber', transportTime: '15', notes: 'Check in' }
+      ]},
+      { weekday: 'Fri', date: '8', city: 'Paris', events: [
+          { id: 701, type: 'attraction', time: '09:30', name: 'Louvre Museum', transportType: 'walk', transportTime: '15' },
+          { id: 702, type: 'attraction', time: '14:30', name: 'Arc de Triomphe', transportType: 'uber', transportTime: '10' },
+          { id: 703, type: 'attraction', time: '20:00', name: 'Trocadéro Eiffel Tower', transportType: 'uber', transportTime: '5', notes: 'Sunset & night photos' }
+      ]},
+      { weekday: 'Sat', date: '9', city: 'Versailles', events: [
+          { id: 801, type: 'attraction', time: '09:30', name: 'Palace of Versailles', transportType: 'uber', transportTime: '45', price: '€40-55', notes: 'Timed entry at 09:30' }
+      ]},
+      { weekday: 'Sun', date: '10', city: 'Normandy', events: [
+          { id: 901, type: 'attraction', time: '07:00', name: 'Mont Saint-Michel Tour', transportType: 'uber', transportTime: '20', notes: '4-hr coach ride' }
+      ]},
+      { weekday: 'Mon', date: '11', city: 'Paris', events: [
+          { id: 1001, type: 'attraction', time: '10:00', name: 'Notre-Dame Cathedral', transportType: 'walk', transportTime: '12' },
+          { id: 1002, type: 'attraction', time: '16:30', name: 'Montmartre & Sacré-Cœur', transportType: 'uber', transportTime: '15' }
+      ]},
+      { weekday: 'Tue', date: '12', city: 'Paris', events: [
+          { id: 1101, type: 'attraction', time: '10:00', name: 'Musée d\'Orsay', transportType: 'uber', transportTime: '8' },
+          { id: 1102, type: 'food', time: '20:00', name: 'Farewell Dinner', transportType: 'uber', transportTime: '10' }
+      ]},
+      { weekday: 'Wed', date: '13', city: 'Paris', events: [
+          { id: 1201, type: 'food', time: '08:00', name: 'Final Boulangerie Breakfast', transportType: 'walk', transportTime: '5' },
+          { id: 1202, type: 'flight', time: '12:20', name: 'CX 260 departs CDG', flightNo: 'CX 260', duration: '11h 55m', departTime: '12:20', departAirport: 'CDG', arriveTime: '06:15', arriveAirport: 'HKG' }
+      ]}
+    ];
+
+    createApp({
+      setup() {
+        const currentTab = ref('itinerary');
+        const selectedDateIndex = ref(0);
+        const itineraryDays = ref(fullItinerary);
+        const currentDayData = computed(() => itineraryDays.value[selectedDateIndex.value]);
+        const weather = ref({ temp: 18, icon: 'fa-solid fa-cloud-sun', color: 'text-gray-400' });
+        
+        const selectDate = (idx) => { 
+          selectedDateIndex.value = idx;
+          if(itineraryDays.value[idx].city === 'Paris') weather.value = { temp: 21, icon: 'fa-solid fa-sun', color: 'text-yellow-400' };
+          else if(itineraryDays.value[idx].city === 'Amsterdam') weather.value = { temp: 15, icon: 'fa-solid fa-cloud-rain', color: 'text-blue-300' };
+          else weather.value = { temp: 18, icon: 'fa-solid fa-cloud-sun', color: 'text-gray-400' };
+        };
+
+        return { tabs: [{id:'itinerary', icon:'fa-regular fa-calendar-days'}, {id:'info', icon:'fa-solid fa-circle-info'}], currentTab, itineraryDays, selectedDateIndex, currentDayData, weather, selectDate, getTransportIcon: (t) => t === 'uber' ? 'fa-solid fa-car' : 'fa-solid fa-person-walking', getTypeColor: (t) => t === 'flight' ? 'bg-brand-teal' : 'bg-brand-blue' };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
