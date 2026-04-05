@@ -1,0 +1,563 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;title&gt;Europe 2026 Masterplan&lt;/title&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">  </span></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script src="https://unpkg.com/vue@3/dist/vue.global.js"&gt;&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>tailwind.config = {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>theme: {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>extend: {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>fontFamily: {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>sans: ['Inter', 'sans-serif'],</p>
+<p class="p1"><span class="Apple-converted-space">            </span>serif: ['Playfair Display', 'serif'],</p>
+<p class="p1"><span class="Apple-converted-space">          </span>},</p>
+<p class="p1"><span class="Apple-converted-space">          </span>colors: {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>brand: {</p>
+<p class="p1"><span class="Apple-converted-space">              </span>blue: '#8EB8C9', // Soft sky blue</p>
+<p class="p1"><span class="Apple-converted-space">              </span>green: '#A3C4A8', // Spring green</p>
+<p class="p1"><span class="Apple-converted-space">              </span>gold: '#D4AF37', // Gold accents</p>
+<p class="p1"><span class="Apple-converted-space">              </span>cream: '#FDFBF7', // Background extending from banner</p>
+<p class="p1"><span class="Apple-converted-space">              </span>teal: '#2c6e63', // Flight UI header</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>body { background-color: #FDFBF7; -webkit-tap-highlight-color: transparent; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hide-scrollbar::-webkit-scrollbar { display: none; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>/* Smooth transitions */</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.fade-enter-from, .fade-leave-from { opacity: 0; }</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.glass-tab-bar {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>background: rgba(255, 255, 255, 0.85);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>backdrop-filter: blur(10px);</p>
+<p class="p1"><span class="Apple-converted-space">      </span>box-shadow: 0 -4px 20px rgba(0,0,0,0.05);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>.flight-divider {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: relative;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>border-top: 2px solid #e5e7eb;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>margin: 20px 0;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.flight-divider::after {</p>
+<p class="p1"><span class="Apple-converted-space">      </span>content: '✈';</p>
+<p class="p1"><span class="Apple-converted-space">      </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>top: -12px;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>right: 0;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>color: #9ca3af;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>font-size: 14px;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="text-gray-800 antialiased font-sans pb-24"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;div id="app" v-cloak&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;header class="relative w-full"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;img src="top banner.jpg" alt="Europe Trip Banner" class="w-full h-[250px] object-cover block" onerror="this.src='https://images.unsplash.com/photo-1499856871958-5b9627545d1a?q=80&amp;w=1920&amp;h=400&amp;auto=format&amp;fit=crop'"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="absolute bottom-10 right-4 flex space-x-2 z-20"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button v-for="tab in tabs" :key="tab.id" @click="currentTab = tab.id"</p>
+<p class="p1"><span class="Apple-converted-space">          </span>class="flex items-center justify-center w-10 h-10 rounded-full shadow-md transition-all duration-300"</p>
+<p class="p1"><span class="Apple-converted-space">          </span>:class="currentTab === tab.id ? 'bg-brand-gold text-white' : 'bg-white/90 text-gray-600'"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;i :class="tab.icon"&gt;&lt;/i&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/header&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;main class="relative z-10 bg-brand-cream rounded-t-[30px] -mt-6 min-h-screen px-4 pt-6"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">      </span></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div v-show="currentTab === 'itinerary'" class="animate-fade-in"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1 class="text-2xl font-serif font-semibold text-gray-800 mb-4"&gt;L'Itinéraire&lt;/h1&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="flex overflow-x-auto hide-scrollbar space-x-3 mb-6 pb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button v-for="(day, index) in itineraryDays" :key="index" @click="selectDate(index)"</p>
+<p class="p1"><span class="Apple-converted-space">            </span>class="flex flex-col items-center min-w-[70px] py-2 px-3 rounded-2xl transition-colors border"</p>
+<p class="p1"><span class="Apple-converted-space">            </span>:class="selectedDateIndex === index ? 'bg-brand-blue text-white border-brand-blue' : 'bg-white text-gray-500 border-gray-200'"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="text-xs font-semibold uppercase"&gt;{{ day.weekday }}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="text-xl font-bold font-serif"&gt;{{ day.date }}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="bg-white rounded-2xl p-4 shadow-sm flex items-center justify-between mb-6 border border-gray-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-sm text-gray-500"&gt;{{ currentDayData.city }} Weather&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-2xl font-semibold font-serif"&gt;{{ weather.temp }}°C&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-xs text-gray-400"&gt;Feels like {{ weather.feelsLike }}°C&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="text-4xl" :class="weather.color"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;i :class="weather.icon"&gt;&lt;/i&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="space-y-4 relative"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="absolute left-6 top-0 bottom-0 w-0.5 bg-gray-200 z-0"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div v-for="(item, index) in currentDayData.events" :key="item.id"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">               </span>draggable="true" @dragstart="dragStart(index)" @dragover.prevent @drop="drop(index)"</p>
+<p class="p1"><span class="Apple-converted-space">               </span>class="relative z-10"&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div v-if="index &gt; 0 || item.transportTime" class="pl-14 pb-4 flex items-center space-x-2 text-xs text-brand-gold font-medium"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;i :class="getTransportIcon(item.transportType)"&gt;&lt;/i&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span&gt;{{ item.transportTime }} mins&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span v-if="item.price" class="text-gray-400 font-normal"&gt;({{ item.price }})&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 ml-12 relative"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="absolute -left-8 top-5 w-4 h-4 rounded-full border-4 border-white shadow-sm" :class="getTypeColor(item.type)"&gt;&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">              </span></p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="flex justify-between items-start mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div class="flex items-center space-x-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600"&gt;{{ item.time }}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;h3 class="font-semibold text-gray-800 leading-tight"&gt;{{ item.name }}&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;p v-if="item.localName" class="text-xs text-gray-400 mt-0.5"&gt;{{ item.localName }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button @click="deleteEvent(index)" class="text-gray-300 hover:text-red-400 transition-colors ml-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;i class="fa-solid fa-trash-can text-sm"&gt;&lt;/i&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div v-if="item.type !== 'flight'" class="text-sm text-gray-600 space-y-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p v-if="item.hours"&gt;&lt;i class="fa-regular fa-clock w-4 text-center"&gt;&lt;/i&gt; {{ item.hours }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p v-if="item.tickets"&gt;&lt;i class="fa-solid fa-ticket w-4 text-center"&gt;&lt;/i&gt; {{ item.tickets }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p v-if="item.notes" class="bg-gray-50 p-2 rounded-lg mt-2 italic text-gray-500 text-xs"&gt;{{ item.notes }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div v-if="item.type === 'flight'" class="mt-3 bg-brand-teal text-white rounded-xl p-3 shadow-inner"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex justify-between items-center text-sm font-semibold mb-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;span&gt;{{ item.flightNo }}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;span class="text-xs font-normal opacity-80"&gt;{{ item.duration }}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex justify-between items-end mt-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div class="text-left"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-xl font-bold"&gt;{{ item.departTime }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-xs opacity-80"&gt;{{ item.departAirport }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div class="flex-1 px-4"&gt;&lt;div class="flight-divider border-white/30 after:text-white"&gt;&lt;/div&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;div class="text-right"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-xl font-bold"&gt;{{ item.arriveTime }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p class="text-xs opacity-80"&gt;{{ item.arriveAirport }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="mt-3 pt-3 border-t border-gray-100 flex justify-end space-x-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;a v-if="item.type !== 'flight'" :href="'https://www.google.com/maps/search/?api=1&amp;query=' + encodeURIComponent(item.name + ' ' + currentDayData.city)" target="_blank" class="text-brand-blue text-xs flex items-center hover:underline"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;i class="fa-solid fa-map-location-dot mr-1"&gt;&lt;/i&gt; Maps</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;a v-if="item.type !== 'flight'" :href="'uber://?action=setPickup&amp;dropoff[formatted_address]=' + encodeURIComponent(item.name)" class="text-black text-xs flex items-center hover:underline"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                  </span>&lt;i class="fa-brands fa-uber mr-1"&gt;&lt;/i&gt; Uber</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button @click="showAddEventModal = true" class="fixed bottom-6 right-4 w-12 h-12 bg-brand-green text-white rounded-full shadow-lg flex items-center justify-center text-xl z-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;i class="fa-solid fa-plus"&gt;&lt;/i&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div v-show="currentTab === 'info'" class="animate-fade-in space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1 class="text-2xl font-serif font-semibold text-gray-800"&gt;Informations&lt;/h1&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3 class="font-semibold text-gray-800 mb-3 flex items-center"&gt;&lt;i class="fa-solid fa-money-bill-transfer text-brand-gold mr-2"&gt;&lt;/i&gt; Converter (EUR to HKD)&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="flex space-x-2 items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="relative w-1/2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="absolute left-3 top-2.5 text-gray-400"&gt;€&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="number" v-model="calcEur" @input="convertCurrency('eur')" class="w-full bg-gray-50 border border-gray-200 rounded-lg pl-8 pr-3 py-2 text-sm focus:outline-none focus:border-brand-blue"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;i class="fa-solid fa-arrow-right-arrow-left text-gray-400"&gt;&lt;/i&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="relative w-1/2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span class="absolute left-3 top-2.5 text-gray-400"&gt;$&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="number" v-model="calcHkd" @input="convertCurrency('hkd')" class="w-full bg-gray-50 border border-gray-200 rounded-lg pl-8 pr-3 py-2 text-sm focus:outline-none focus:border-brand-blue"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p class="text-xs text-gray-400 mt-2 text-right"&gt;Est. Rate: 1 EUR ≈ {{ exchangeRate }} HKD&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3 class="font-semibold text-gray-800 mb-3 ml-1"&gt;Accommodations&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="space-y-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div v-for="hotel in hotels" :key="hotel.name" class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex justify-between items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="font-semibold text-sm"&gt;{{ hotel.name }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-xs text-gray-500"&gt;{{ hotel.dates }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;a :href="'https://www.google.com/maps/search/?api=1&amp;query=' + encodeURIComponent(hotel.name)" target="_blank" class="w-8 h-8 rounded-full bg-blue-50 text-brand-blue flex items-center justify-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;i class="fa-solid fa-location-arrow text-sm"&gt;&lt;/i&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/a&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3 class="font-semibold text-gray-800 mb-3 ml-1 text-red-800"&gt;Urgence / Emergency&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="bg-red-50 rounded-xl p-4 shadow-sm border border-red-100 space-y-2 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex justify-between border-b border-red-200 pb-1"&gt;&lt;span&gt;EU Emergency&lt;/span&gt; &lt;span class="font-bold"&gt;112&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex justify-between border-b border-red-200 pb-1"&gt;&lt;span&gt;France Police&lt;/span&gt; &lt;span class="font-bold"&gt;17&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex justify-between border-b border-red-200 pb-1"&gt;&lt;span&gt;HK Immigration Assist&lt;/span&gt; &lt;span class="font-bold"&gt;+852 1868&lt;/span&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-xs mt-2 italic text-red-600"&gt;Nearest hospital to Paris base: Hôtel-Dieu&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div v-show="currentTab === 'shopping'" class="animate-fade-in pb-10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1 class="text-2xl font-serif font-semibold text-gray-800 mb-4"&gt;La Liste d'Achats&lt;/h1&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div v-if="shoppingList.length === 0" class="text-center text-gray-400 mt-10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;i class="fa-solid fa-bag-shopping text-4xl mb-3 opacity-30"&gt;&lt;/i&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p&gt;No items added yet.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="grid grid-cols-2 gap-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div v-for="(item, index) in shoppingList" :key="index" class="bg-white rounded-xl p-3 shadow-sm border border-gray-100 relative"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button @click="shoppingList.splice(index, 1)" class="absolute top-2 right-2 text-gray-300 hover:text-red-400"&gt;&lt;i class="fa-solid fa-times"&gt;&lt;/i&gt;&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="w-full h-24 bg-gray-100 rounded-lg mb-2 overflow-hidden flex items-center justify-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;img v-if="item.image" :src="item.image" class="w-full h-full object-cover"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;i v-else class="fa-solid fa-camera text-gray-300 text-xl"&gt;&lt;/i&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;span class="text-[10px] uppercase font-semibold text-brand-green tracking-wider"&gt;{{ item.category }}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-sm font-semibold text-gray-800 truncate"&gt;{{ item.name }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label class="flex items-center space-x-2 mt-2 text-xs text-gray-500"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="checkbox" v-model="item.taxRefund" class="rounded text-brand-blue focus:ring-brand-blue"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;span&gt;Tax Refund Needed&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button @click="showAddShoppingModal = true" class="fixed bottom-6 right-4 w-12 h-12 bg-brand-green text-white rounded-full shadow-lg flex items-center justify-center text-xl z-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;i class="fa-solid fa-plus"&gt;&lt;/i&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div v-show="currentTab === 'expenses'" class="animate-fade-in pb-10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="bg-gradient-to-br from-brand-blue to-teal-600 rounded-2xl p-6 text-white mb-6 shadow-md"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p class="text-sm opacity-80 uppercase tracking-widest mb-1"&gt;Total Dépenses&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h2 class="text-3xl font-serif font-bold"&gt;€ {{ totalExpenses.toFixed(2) }}&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;p class="text-xs opacity-70 mt-1"&gt;~ HKD {{ (totalExpenses * exchangeRate).toFixed(2) }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="space-y-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div v-for="(exp, index) in expenses" :key="index" class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex justify-between items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex items-center space-x-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-brand-blue"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;i :class="getExpenseIcon(exp.category)"&gt;&lt;/i&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="font-semibold text-sm"&gt;{{ exp.name }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-xs text-gray-400"&gt;{{ exp.date }} • {{ exp.paymentMethod }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="text-right"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;p class="font-bold text-gray-800"&gt;€ {{ parseFloat(exp.amount).toFixed(2) }}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;button @click="expenses.splice(index, 1)" class="text-xs text-red-400 hover:underline"&gt;Delete&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;button @click="showAddExpenseModal = true" class="fixed bottom-6 right-4 w-12 h-12 bg-brand-gold text-white rounded-full shadow-lg flex items-center justify-center text-xl z-50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;i class="fa-solid fa-plus"&gt;&lt;/i&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/main&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div v-if="showAddEventModal" class="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="bg-white w-full sm:w-[400px] rounded-t-3xl sm:rounded-3xl p-6 h-[80vh] sm:h-auto overflow-y-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="flex justify-between items-center mb-5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3 class="text-lg font-serif font-semibold"&gt;Add New Plan&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button @click="showAddEventModal = false" class="text-gray-400 text-xl"&gt;&lt;i class="fa-solid fa-times"&gt;&lt;/i&gt;&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;form @submit.prevent="addEvent" class="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label class="block text-xs text-gray-500 mb-1"&gt;Type&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;select v-model="newEvent.type" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="attraction"&gt;Attraction&lt;/option&gt;&lt;option value="food"&gt;Food&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="shopping"&gt;Shopping&lt;/option&gt;&lt;option value="hotel"&gt;Hotel&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="other"&gt;Other&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label class="block text-xs text-gray-500 mb-1"&gt;Time&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="time" v-model="newEvent.time" required class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label class="block text-xs text-gray-500 mb-1"&gt;Name&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" v-model="newEvent.name" required class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label class="block text-xs text-gray-500 mb-1"&gt;Notes / Feature&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;textarea v-model="newEvent.notes" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm"&gt;&lt;/textarea&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="flex space-x-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="w-1/2"&gt;&lt;label class="block text-xs text-gray-500 mb-1"&gt;Transport From Last&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;select v-model="newEvent.transportType" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="walk"&gt;Walk&lt;/option&gt;&lt;option value="uber"&gt;Uber/Car&lt;/option&gt;&lt;option value="transit"&gt;Transit&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="w-1/2"&gt;&lt;label class="block text-xs text-gray-500 mb-1"&gt;Mins&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="number" v-model="newEvent.transportTime" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button type="submit" class="w-full bg-brand-blue text-white rounded-xl py-3 font-semibold mt-4 shadow-md"&gt;Add Plan&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/form&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div v-if="showAddShoppingModal" class="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="bg-white w-full sm:w-[400px] rounded-t-3xl sm:rounded-3xl p-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="flex justify-between items-center mb-5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3 class="text-lg font-serif font-semibold"&gt;Add to List&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button @click="showAddShoppingModal = false" class="text-gray-400"&gt;&lt;i class="fa-solid fa-times"&gt;&lt;/i&gt;&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;form @submit.prevent="addShoppingItem" class="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label class="block text-xs text-gray-500 mb-1"&gt;Item Name&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" v-model="newShopping.name" required class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label class="block text-xs text-gray-500 mb-1"&gt;Category&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;select v-model="newShopping.category" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;option value="food"&gt;Food&lt;/option&gt;&lt;option value="clothings"&gt;Clothings&lt;/option&gt;&lt;option value="luxury"&gt;Luxury&lt;/option&gt;&lt;option value="skincare &amp; makeup"&gt;Skincare &amp; Makeup&lt;/option&gt;&lt;option value="others"&gt;Others&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div&gt;&lt;label class="block text-xs text-gray-500 mb-1"&gt;Photo (Optional)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="file" @change="handleImageUpload" accept="image/*" class="w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:bg-brand-blue file:text-white hover:file:bg-brand-green"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button type="submit" class="w-full bg-brand-green text-white rounded-xl py-3 font-semibold mt-2 shadow-md"&gt;Add Item&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/form&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div v-if="showAddExpenseModal" class="fixed inset-0 bg-black/50 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;div class="bg-white w-full sm:w-[400px] rounded-t-3xl sm:rounded-3xl p-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="flex justify-between items-center mb-5"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;h3 class="text-lg font-serif font-semibold"&gt;Add Expense&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button @click="showAddExpenseModal = false" class="text-gray-400"&gt;&lt;i class="fa-solid fa-times"&gt;&lt;/i&gt;&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;form @submit.prevent="addExpense" class="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="flex space-x-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="w-2/3"&gt;&lt;label class="block text-xs text-gray-500 mb-1"&gt;Name&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="text" v-model="newExpense.name" required class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="w-1/3"&gt;&lt;label class="block text-xs text-gray-500 mb-1"&gt;Amount (€)&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;input type="number" step="0.01" v-model="newExpense.amount" required class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;div class="flex space-x-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="w-1/2"&gt;&lt;label class="block text-xs text-gray-500 mb-1"&gt;Category&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;select v-model="newExpense.category" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="transport"&gt;Transport&lt;/option&gt;&lt;option value="food"&gt;Food&lt;/option&gt;&lt;option value="hotel"&gt;Hotel&lt;/option&gt;&lt;option value="tickets"&gt;Tickets&lt;/option&gt;&lt;option value="shopping"&gt;Shopping&lt;/option&gt;&lt;option value="other"&gt;Other&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="w-1/2"&gt;&lt;label class="block text-xs text-gray-500 mb-1"&gt;Method&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;select v-model="newExpense.paymentMethod" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;option value="Card"&gt;Credit Card&lt;/option&gt;&lt;option value="Cash"&gt;Cash&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">              </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>&lt;button type="submit" class="w-full bg-brand-gold text-white rounded-xl py-3 font-semibold mt-2 shadow-md"&gt;Save Expense&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/form&gt;</p>
+<p class="p1"><span class="Apple-converted-space">      </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const { createApp, ref, computed, watch, onMounted } = Vue;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>// Masterplan Data Initializer (Days 1 &amp; 2 pre-filled as examples)</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const initialItinerary = [</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>weekday: 'Sat', date: '2', fullDate: '2026-05-02', city: 'Brussels',</p>
+<p class="p1"><span class="Apple-converted-space">        </span>events: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 1, type: 'flight', time: '00:45', name: 'CX 275 departs HKG', flightNo: 'CX 275', duration: '13h 40m', departTime: '00:45', departAirport: 'HKG', arriveTime: '08:25', arriveAirport: 'BRU (Brussels)' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 2, type: 'hotel', time: '09:30', name: 'OPO Hotel', transportType: 'uber', transportTime: '20', price: '€35-45', notes: 'Drop bags, freshen up' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 3, type: 'food', time: '10:30', name: 'Woodpecker 47', transportType: 'walk', transportTime: '5', notes: 'Famous all-day brunch. Try Peck Special or Magic Mushroom waffle.' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 4, type: 'attraction', time: '12:00', name: 'Grand Place', localName: '布魯塞爾大廣場', transportType: 'walk', transportTime: '2', notes: 'Town Hall, Galeries Royales Saint-Hubert' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 5, type: 'shopping', time: '12:30', name: 'Delvaux', transportType: 'walk', transportTime: '1', notes: "World's oldest luxury leather goods house (1829)" },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 6, type: 'food', time: '17:30', name: 'Amadeo (Amadeus)', transportType: 'walk', transportTime: '3', notes: 'Unlimited spare ribs (€25-28). Opens 17:00, go early!' }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>]</p>
+<p class="p1"><span class="Apple-converted-space">      </span>},</p>
+<p class="p1"><span class="Apple-converted-space">      </span>{</p>
+<p class="p1"><span class="Apple-converted-space">        </span>weekday: 'Sun', date: '3', fullDate: '2026-05-03', city: 'Amsterdam',</p>
+<p class="p1"><span class="Apple-converted-space">        </span>events: [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 7, type: 'transit', time: '07:30', name: 'Uber to Brussels Midi', transportType: 'uber', transportTime: '15', price: '€10-15' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 8, type: 'flight', time: '08:22', name: 'Eurostar 9305', flightNo: 'EST 9305', duration: '2h 25m', departTime: '08:22', departAirport: 'BRU', arriveTime: '10:47', arriveAirport: 'AMS' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 9, type: 'hotel', time: '11:15', name: 'Renaissance Amsterdam Hotel', transportType: 'uber', transportTime: '10', price: '€10', notes: 'Check in' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 10, type: 'food', time: '12:00', name: 'Jordaan neighbourhood', localName: '約旦區', transportType: 'walk', transportTime: '15', notes: 'Walk along Prinsengracht for lunch' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 11, type: 'shopping', time: '14:00', name: 'De Negen Straatjes', localName: '九街', transportType: 'walk', transportTime: '5', notes: 'Boutique shopping, canal views' }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>]</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>createApp({</p>
+<p class="p1"><span class="Apple-converted-space">      </span>setup() {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const tabs = [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 'itinerary', icon: 'fa-regular fa-calendar-days' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 'info', icon: 'fa-solid fa-circle-info' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 'shopping', icon: 'fa-solid fa-bag-shopping' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ id: 'expenses', icon: 'fa-solid fa-euro-sign' }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const currentTab = ref('itinerary');</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Load data from LocalStorage or use Defaults</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const itineraryDays = ref(JSON.parse(localStorage.getItem('trip_itinerary')) || initialItinerary);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const shoppingList = ref(JSON.parse(localStorage.getItem('trip_shopping')) || []);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const expenses = ref(JSON.parse(localStorage.getItem('trip_expenses')) || []);</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const selectedDateIndex = ref(0);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const currentDayData = computed(() =&gt; itineraryDays.value[selectedDateIndex.value]);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Weather state (Mocking dynamic logic)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const weather = ref({ temp: 18, feelsLike: 16, icon: 'fa-solid fa-cloud-sun', color: 'text-gray-400' });</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Save on change</p>
+<p class="p1"><span class="Apple-converted-space">        </span>watch(itineraryDays, (val) =&gt; localStorage.setItem('trip_itinerary', JSON.stringify(val)), { deep: true });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>watch(shoppingList, (val) =&gt; localStorage.setItem('trip_shopping', JSON.stringify(val)), { deep: true });</p>
+<p class="p1"><span class="Apple-converted-space">        </span>watch(expenses, (val) =&gt; localStorage.setItem('trip_expenses', JSON.stringify(val)), { deep: true });</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Modals &amp; Forms</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const showAddEventModal = ref(false);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const newEvent = ref({ type: 'attraction', time: '10:00', name: '', notes: '', transportType: 'walk', transportTime: '' });</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const showAddShoppingModal = ref(false);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const newShopping = ref({ name: '', category: 'others', image: null, taxRefund: false });</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const showAddExpenseModal = ref(false);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const newExpense = ref({ name: '', amount: '', category: 'food', paymentMethod: 'Card', date: '' });</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Computed totals</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const totalExpenses = computed(() =&gt; expenses.value.reduce((sum, exp) =&gt; sum + parseFloat(exp.amount), 0));</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Currency</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const exchangeRate = ref(8.5); // Mocked HKD to EUR rate</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const calcEur = ref(100);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const calcHkd = ref(850);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const convertCurrency = (source) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (source === 'eur') calcHkd.value = (calcEur.value * exchangeRate.value).toFixed(2);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>else calcEur.value = (calcHkd.value / exchangeRate.value).toFixed(2);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Static Info Data</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const hotels = [</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ name: 'OPO Hotel, Brussels', dates: 'May 2 (1 night)' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ name: 'Renaissance Amsterdam', dates: 'May 3 - May 7 (4 nights)' },</p>
+<p class="p1"><span class="Apple-converted-space">          </span>{ name: 'Citadines Les Halles, Paris', dates: 'May 7 - May 13 (6 nights)' }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Functions</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const selectDate = (idx) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>selectedDateIndex.value = idx;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>// Dynamically change fake weather based on city</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const city = itineraryDays.value[idx].city;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if(city === 'Amsterdam') weather.value = { temp: 15, feelsLike: 13, icon: 'fa-solid fa-cloud-rain', color: 'text-blue-300' };</p>
+<p class="p1"><span class="Apple-converted-space">          </span>else if(city === 'Paris') weather.value = { temp: 21, feelsLike: 22, icon: 'fa-solid fa-sun', color: 'text-yellow-400' };</p>
+<p class="p1"><span class="Apple-converted-space">          </span>else weather.value = { temp: 18, feelsLike: 16, icon: 'fa-solid fa-cloud-sun', color: 'text-gray-400' };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const getTransportIcon = (type) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if(type === 'uber') return 'fa-solid fa-car';</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if(type === 'transit') return 'fa-solid fa-train';</p>
+<p class="p1"><span class="Apple-converted-space">          </span>return 'fa-solid fa-person-walking';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const getTypeColor = (type) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const colors = { attraction: 'bg-brand-blue', food: 'bg-orange-400', hotel: 'bg-indigo-400', shopping: 'bg-pink-400', flight: 'bg-brand-teal', other: 'bg-gray-400' };</p>
+<p class="p1"><span class="Apple-converted-space">          </span>return colors[type] || 'bg-gray-400';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const getExpenseIcon = (cat) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const icons = { transport: 'fa-solid fa-train', food: 'fa-solid fa-utensils', hotel: 'fa-solid fa-bed', tickets: 'fa-solid fa-ticket', shopping: 'fa-solid fa-bag-shopping', other: 'fa-solid fa-receipt' };</p>
+<p class="p1"><span class="Apple-converted-space">          </span>return icons[cat] || 'fa-solid fa-receipt';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const addEvent = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>currentDayData.value.events.push({ id: Date.now(), ...newEvent.value });</p>
+<p class="p1"><span class="Apple-converted-space">          </span>// Sort by time</p>
+<p class="p1"><span class="Apple-converted-space">          </span>currentDayData.value.events.sort((a, b) =&gt; a.time.localeCompare(b.time));</p>
+<p class="p1"><span class="Apple-converted-space">          </span>showAddEventModal.value = false;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>newEvent.value = { type: 'attraction', time: '10:00', name: '', notes: '', transportType: 'walk', transportTime: '' };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const deleteEvent = (idx) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if(confirm('Are you sure you want to delete this plan?')) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentDayData.value.events.splice(idx, 1);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const handleImageUpload = (event) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const file = event.target.files[0];</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (file) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const reader = new FileReader();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>reader.onload = (e) =&gt; newShopping.value.image = e.target.result;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>reader.readAsDataURL(file);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const addShoppingItem = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>shoppingList.value.push({ ...newShopping.value });</p>
+<p class="p1"><span class="Apple-converted-space">          </span>showAddShoppingModal.value = false;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>newShopping.value = { name: '', category: 'others', image: null, taxRefund: false };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const addExpense = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>newExpense.value.date = currentDayData.value.fullDate;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>expenses.value.unshift({ ...newExpense.value });</p>
+<p class="p1"><span class="Apple-converted-space">          </span>showAddExpenseModal.value = false;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>newExpense.value = { name: '', amount: '', category: 'food', paymentMethod: 'Card', date: '' };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Basic Drag and Drop implementation for events</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const draggedIndex = ref(null);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const dragStart = (index) =&gt; { draggedIndex.value = index; };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const drop = (targetIndex) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>if (draggedIndex.value === null || draggedIndex.value === targetIndex) return;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const events = currentDayData.value.events;</p>
+<p class="p1"><span class="Apple-converted-space">          </span>const item = events.splice(draggedIndex.value, 1)[0];</p>
+<p class="p1"><span class="Apple-converted-space">          </span>events.splice(targetIndex, 0, item);</p>
+<p class="p1"><span class="Apple-converted-space">          </span>draggedIndex.value = null;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>return {</p>
+<p class="p1"><span class="Apple-converted-space">          </span>tabs, currentTab, itineraryDays, selectedDateIndex, currentDayData, weather, selectDate,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>getTransportIcon, getTypeColor, getExpenseIcon,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>showAddEventModal, newEvent, addEvent, deleteEvent, dragStart, drop,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>exchangeRate, calcEur, calcHkd, convertCurrency, hotels,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>showAddShoppingModal, newShopping, shoppingList, handleImageUpload, addShoppingItem,</p>
+<p class="p1"><span class="Apple-converted-space">          </span>showAddExpenseModal, newExpense, expenses, addExpense, totalExpenses</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">      </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}).mount('#app');</p>
+<p class="p1"><span class="Apple-converted-space">  </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
