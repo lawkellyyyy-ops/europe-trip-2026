@@ -155,11 +155,14 @@ select.sel-style{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://w
         </div>
         <div v-if="item.hours" class="text-[10px] text-txt-light mt-2">🕐 {{item.hours}}</div>
         <div v-if="item.notes" class="text-xs text-txt-light mt-2 leading-relaxed">{{item.notes}}</div>
-        <!-- Photo -->
-        <img v-if="item.photo" :src="item.photo" class="w-full h-32 object-cover rounded-xl mt-2 cursor-zoom-in" @click.stop="previewPhoto=item.photo">
-        <div v-if="item.refLinks && item.refLinks.length" class="flex flex-wrap gap-1.5 mt-2">
+        <button v-if="matchedGuide(item)" @click.stop="goToGuide(matchedGuide(item))" class="inline-flex items-center gap-1 text-[10px] font-semibold px-2.5 py-1 rounded-full bg-blu/10 text-blu mt-2"><i class="fas fa-book-open"></i>View Guide</button>
+        <!-- Photos -->
+        <div v-if="(item.photos&&item.photos.length)||(item.photo)" class="flex gap-2 mt-2 overflow-x-auto hide-scroll">
+          <img v-for="(ph,pi) in (item.photos&&item.photos.length?item.photos:(item.photo?[item.photo]:[]))" :key="pi" :src="ph" class="w-16 h-16 object-cover rounded-xl cursor-zoom-in flex-shrink-0 border-2 border-cream-dark" @click.stop="openGallery(item.photos&&item.photos.length?item.photos:[item.photo],pi)">
+        </div>
+        <div v-if="item.refLinks && item.refLinks.length" class="flex gap-1.5 overflow-x-auto hide-scroll mt-2">
           <a v-for="rl in item.refLinks" :key="rl.url" :href="rl.url" target="_blank" @click.stop
-            class="text-[10px] font-semibold px-2 py-1 rounded-lg" :class="linkStyle(rl.type)"><i :class="linkIcon(rl.type)" class="mr-1"></i>{{rl.label||rl.type}}</a>
+            class="flex-shrink-0 text-[10px] font-semibold px-3 py-1.5 rounded-lg whitespace-nowrap" :class="linkStyle(rl.type)"><i :class="linkIcon(rl.type)" class="mr-1"></i>{{rl.label||rl.type}}</a>
         </div>
       </div>
 
@@ -182,14 +185,13 @@ select.sel-style{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://w
           <span v-if="item.hours" class="text-[10px] text-txt-light">🕐 {{item.hours}}</span>
         </div>
         <div v-if="item.notes" class="text-xs text-txt-light mt-2 leading-relaxed">{{item.notes}}</div>
-        <img v-if="item.photo" :src="item.photo" class="w-full h-32 object-cover rounded-xl mt-2 cursor-zoom-in" @click.stop="previewPhoto=item.photo">
-        <div v-if="item.refLinks && item.refLinks.length" class="flex flex-wrap gap-1.5 mt-2">
-          <a v-for="rl in item.refLinks" :key="rl.url" :href="rl.url" target="_blank" @click.stop
-            class="text-[10px] font-semibold px-2 py-1 rounded-lg" :class="linkStyle(rl.type)"><i :class="linkIcon(rl.type)" class="mr-1"></i>{{rl.label||rl.type}}</a>
+        <button v-if="matchedGuide(item)" @click.stop="goToGuide(matchedGuide(item))" class="inline-flex items-center gap-1 text-[10px] font-semibold px-2.5 py-1 rounded-full bg-blu/10 text-blu mt-2"><i class="fas fa-book-open"></i>View Guide</button>
+        <div v-if="(item.photos&&item.photos.length)||(item.photo)" class="flex gap-2 mt-2 overflow-x-auto hide-scroll">
+          <img v-for="(ph,pi) in (item.photos&&item.photos.length?item.photos:(item.photo?[item.photo]:[]))" :key="pi" :src="ph" class="w-16 h-16 object-cover rounded-xl cursor-zoom-in flex-shrink-0 border-2 border-cream-dark" @click.stop="openGallery(item.photos&&item.photos.length?item.photos:[item.photo],pi)">
         </div>
-        <div v-if="item.addr" class="flex gap-2 mt-2">
-          <a @click.stop :href="'https://www.google.com/maps/search/'+encodeURIComponent(item.addr)+'/reviews'" target="_blank"
-            class="text-[11px] font-semibold text-gld bg-gld/10 px-3 py-1.5 rounded-lg"><i class="fas fa-star mr-1"></i>Reviews</a>
+        <div v-if="item.refLinks && item.refLinks.length" class="flex gap-1.5 overflow-x-auto hide-scroll mt-2">
+          <a v-for="rl in item.refLinks" :key="rl.url" :href="rl.url" target="_blank" @click.stop
+            class="flex-shrink-0 text-[10px] font-semibold px-3 py-1.5 rounded-lg whitespace-nowrap" :class="linkStyle(rl.type)"><i :class="linkIcon(rl.type)" class="mr-1"></i>{{rl.label||rl.type}}</a>
         </div>
       </div>
 
@@ -214,15 +216,14 @@ select.sel-style{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://w
           <span v-if="item.tourAlert" class="text-[10px] text-red-500 font-bold">⚠ Important!</span>
         </div>
         <div v-if="item.notes" class="text-xs text-txt-light mt-2 leading-relaxed">{{item.notes}}</div>
-        <img v-if="item.photo" :src="item.photo" class="w-full h-32 object-cover rounded-xl mt-2 cursor-zoom-in" @click.stop="previewPhoto=item.photo">
-        <!-- Reference Links -->
-        <div v-if="item.refLinks && item.refLinks.length" class="flex flex-wrap gap-1.5 mt-2">
-          <a v-for="rl in item.refLinks" :key="rl.url" :href="rl.url" target="_blank" @click.stop
-            class="text-[10px] font-semibold px-2 py-1 rounded-lg" :class="linkStyle(rl.type)"><i :class="linkIcon(rl.type)" class="mr-1"></i>{{rl.label||rl.type}}</a>
+        <button v-if="matchedGuide(item)" @click.stop="goToGuide(matchedGuide(item))" class="inline-flex items-center gap-1 text-[10px] font-semibold px-2.5 py-1 rounded-full bg-blu/10 text-blu mt-2"><i class="fas fa-book-open"></i>View Guide</button>
+        <div v-if="(item.photos&&item.photos.length)||(item.photo)" class="flex gap-2 mt-2 overflow-x-auto hide-scroll">
+          <img v-for="(ph,pi) in (item.photos&&item.photos.length?item.photos:(item.photo?[item.photo]:[]))" :key="pi" :src="ph" class="w-16 h-16 object-cover rounded-xl cursor-zoom-in flex-shrink-0 border-2 border-cream-dark" @click.stop="openGallery(item.photos&&item.photos.length?item.photos:[item.photo],pi)">
         </div>
-        <div v-if="item.addr" class="flex gap-2 mt-2">
-          <a @click.stop :href="'https://www.google.com/maps/search/'+encodeURIComponent(item.addr)+'/reviews'" target="_blank"
-            class="text-[11px] font-semibold text-gld bg-gld/10 px-3 py-1.5 rounded-lg"><i class="fas fa-star mr-1"></i>Reviews</a>
+        <!-- Reference Links -->
+        <div v-if="item.refLinks && item.refLinks.length" class="flex gap-1.5 overflow-x-auto hide-scroll mt-2">
+          <a v-for="rl in item.refLinks" :key="rl.url" :href="rl.url" target="_blank" @click.stop
+            class="flex-shrink-0 text-[10px] font-semibold px-3 py-1.5 rounded-lg whitespace-nowrap" :class="linkStyle(rl.type)"><i :class="linkIcon(rl.type)" class="mr-1"></i>{{rl.label||rl.type}}</a>
         </div>
       </div>
     </template>
@@ -237,7 +238,7 @@ select.sel-style{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://w
 
 <!-- ============ EDIT/ADD MODAL ============ -->
 <div v-if="showModal" class="fixed inset-0 z-50 flex items-end justify-center modal-overlay" @click.self="showModal=false">
-  <div class="bg-white w-full max-w-md rounded-t-3xl p-5 slide-up max-h-[85vh] overflow-y-auto">
+  <div class="bg-white w-full max-w-md rounded-t-3xl p-5 pb-24 slide-up max-h-[85vh] overflow-y-auto">
     <div class="flex justify-between items-center mb-4">
       <h3 class="text-lg font-bold font-serif text-blu-dark">{{editingItem?'Edit 編輯':'Add New 新增'}}</h3>
       <button @click="showModal=false" class="w-8 h-8 rounded-full bg-cream flex items-center justify-center text-txt-light"><i class="fas fa-times"></i></button>
@@ -262,22 +263,30 @@ select.sel-style{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://w
     </template>
     <label class="text-[11px] font-bold text-txt-light uppercase">Address / Map Search</label>
     <input v-model="form.addr" class="w-full px-3 py-2.5 rounded-xl bg-cream border-2 border-cream-dark text-sm outline-none focus:border-blu mb-3 mt-1">
-    <!-- Photo -->
-    <label class="text-[11px] font-bold text-txt-light uppercase">Photo 照片</label>
-    <div class="flex gap-2 mb-3 mt-1">
-      <label class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-cream border-2 border-dashed border-cream-dark text-sm text-txt-light cursor-pointer">
-        <i class="fas fa-camera"></i> Add Photo
-        <input type="file" accept="image/*" @change="handleCardPhoto" class="hidden">
-      </label>
-      <img v-if="form.photo" :src="form.photo" class="w-14 h-14 rounded-xl object-cover">
-      <button v-if="form.photo" @click="form.photo=''" class="text-red-400 text-xs"><i class="fas fa-times"></i></button>
+    <label class="text-[11px] font-bold text-txt-light uppercase">Linked Guide 關聯指南</label>
+    <select v-model="form.guideId" class="sel-style w-full px-3 py-2.5 rounded-xl bg-cream border-2 border-cream-dark text-sm outline-none focus:border-blu mb-3 mt-1">
+      <option value="">None</option>
+      <option v-for="g in guides" :key="g.id" :value="g.id">{{g.icon}} {{g.title}}</option>
+    </select>
+    <!-- Photos -->
+    <label class="text-[11px] font-bold text-txt-light uppercase">Photos 照片</label>
+    <div class="flex gap-2 flex-wrap mt-1 mb-1">
+      <div v-for="(ph,pi) in form.photos" :key="pi" class="relative">
+        <img :src="ph" class="w-16 h-16 rounded-xl object-cover">
+        <button @click="form.photos.splice(pi,1)" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center text-[9px]"><i class="fas fa-times"></i></button>
+      </div>
     </div>
+    <label class="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-cream border-2 border-dashed border-cream-dark text-sm text-txt-light cursor-pointer mb-3">
+      <i class="fas fa-camera"></i> Add Photo
+      <input type="file" accept="image/*" @change="handleCardPhoto" class="hidden" multiple>
+    </label>
     <!-- Reference Links -->
     <label class="text-[11px] font-bold text-txt-light uppercase">Reference Links 參考連結</label>
     <div v-for="(rl,ri) in form.refLinks" :key="ri" class="flex gap-1 mb-1 mt-1">
       <select v-model="rl.type" class="sel-style w-24 px-2 py-2 rounded-lg bg-cream border border-cream-dark text-[11px] outline-none flex-shrink-0">
         <option>Reviews</option><option>Instagram</option><option>Rednote</option><option>Blog</option><option>Official</option><option>Other</option>
       </select>
+      <input v-if="rl.type==='Other'" v-model="rl.label" class="w-16 px-2 py-2 rounded-lg bg-cream border border-cream-dark text-[11px] outline-none flex-shrink-0" placeholder="Label">
       <input v-model="rl.url" class="flex-1 px-2 py-2 rounded-lg bg-cream border border-cream-dark text-[11px] outline-none" placeholder="https://...">
       <button @click="form.refLinks.splice(ri,1)" class="text-red-400 text-xs px-1"><i class="fas fa-times"></i></button>
     </div>
@@ -328,11 +337,14 @@ select.sel-style{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://w
   </div>
 </div>
 
-<!-- Photo Preview -->
-<div v-if="previewPhoto" class="fixed inset-0 z-[70] flex items-center justify-center modal-overlay" @click="previewPhoto=null">
-  <div class="relative max-w-[95vw] max-h-[90vh]">
+<!-- Photo Preview Gallery -->
+<div v-if="previewPhoto" class="fixed inset-0 z-[70] flex items-center justify-center modal-overlay" @click="closeGallery">
+  <div class="relative max-w-[95vw] max-h-[90vh]" @click.stop>
     <img :src="previewPhoto" class="max-w-full max-h-[85vh] rounded-2xl shadow-2xl object-contain">
-    <button @click="previewPhoto=null" class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center"><i class="fas fa-times"></i></button>
+    <button @click="closeGallery" class="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center"><i class="fas fa-times"></i></button>
+    <button v-if="previewPhotos.length>1" @click="galleryPrev" class="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center text-lg"><i class="fas fa-chevron-left"></i></button>
+    <button v-if="previewPhotos.length>1" @click="galleryNext" class="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 text-white flex items-center justify-center text-lg"><i class="fas fa-chevron-right"></i></button>
+    <div v-if="previewPhotos.length>1" class="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-black/50 text-white text-xs font-semibold">{{previewIdx+1}} / {{previewPhotos.length}}</div>
   </div>
 </div>
 
@@ -347,9 +359,9 @@ select.sel-style{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://w
       class="flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold cursor-pointer border transition-all"
       :class="selGuideTag===gt?'bg-blu text-white border-blu':'bg-white border-cream-dark'">{{gt}}</div>
   </div>
-  <div v-for="g in filteredGuides" :key="g.id" class="mb-5 bg-white rounded-2xl shadow-sm overflow-hidden">
+  <div v-for="g in filteredGuides" :key="g.id" :id="'guide-'+g.id" class="mb-5 bg-white rounded-2xl shadow-sm overflow-hidden">
     <!-- Hero photo -->
-    <img v-if="g.photos && g.photos.length" :src="g.photos[0]" class="w-full h-44 object-cover cursor-zoom-in" @click="previewPhoto=g.photos[0]">
+    <img v-if="g.photos && g.photos.length" :src="g.photos[0]" class="w-full h-44 object-cover cursor-zoom-in" @click="openGallery(g.photos,0)">
     <div class="p-5">
       <div class="flex items-start gap-3 mb-3">
         <span class="text-2xl">{{g.icon}}</span>
@@ -358,26 +370,26 @@ select.sel-style{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://w
           <div v-if="g.zh" class="text-sm text-txt-light font-zh">{{g.zh}}</div>
           <div class="text-[10px] text-txt-light font-semibold uppercase tracking-wide mt-1">{{g.city}} · {{g.day}}</div>
         </div>
+        <a v-if="g.lat" :href="'https://www.google.com/maps/search/?api=1&query='+g.lat+','+g.lon" target="_blank" @click.stop class="w-7 h-7 rounded-lg bg-blu/10 flex items-center justify-center text-blu text-xs"><i class="fas fa-directions"></i></a>
         <button @click.stop="editGuide(g)" class="w-7 h-7 rounded-lg bg-cream flex items-center justify-center text-txt-light text-xs"><i class="fas fa-pen"></i></button>
       </div>
       <!-- Photo gallery (additional photos) -->
       <div v-if="g.photos && g.photos.length > 1" class="flex gap-2 overflow-x-auto hide-scroll mb-3">
-        <img v-for="(ph,pi) in g.photos.slice(1)" :key="pi" :src="ph" class="w-20 h-20 rounded-xl object-cover flex-shrink-0 cursor-zoom-in" @click="previewPhoto=ph">
+        <img v-for="(ph,pi) in g.photos.slice(1)" :key="pi" :src="ph" class="w-20 h-20 rounded-xl object-cover flex-shrink-0 cursor-zoom-in" @click="openGallery(g.photos,pi+1)">
       </div>
       <div class="flex flex-wrap gap-1 mb-3"><span v-for="t in (g.tags||[])" :key="t" class="text-[9px] font-bold uppercase px-2 py-0.5 rounded-full bg-blu/10 text-blu">{{t}}</span></div>
       <div v-if="g.ticketPrice" class="flex items-center gap-2 mb-3"><span class="text-[11px] font-bold px-3 py-1 rounded-full" :class="g.ticketBooked?'ticket-booked':'ticket-unbooked'">{{g.ticketBooked?'✅ Booked':'⏳ Not Booked'}} · {{g.ticketPrice}}</span></div>
       <p class="text-sm text-txt leading-relaxed mb-3" v-html="linkifyGuide(g.desc)"></p>
       <div v-if="g.tips" class="bg-gld/10 rounded-xl p-3 mb-3"><div class="text-xs font-bold text-gld mb-1"><i class="fas fa-lightbulb mr-1"></i>Insider Tips</div><p class="text-xs text-txt-light leading-relaxed" v-html="linkifyGuide(g.tips)"></p></div>
       <div v-if="g.avoid" class="bg-rose/10 rounded-xl p-3 mb-3"><div class="text-xs font-bold text-rose mb-1"><i class="fas fa-exclamation-triangle mr-1"></i>Avoid</div><p class="text-xs text-txt-light leading-relaxed">{{g.avoid}}</p></div>
-      <div v-if="g.links && g.links.length" class="flex flex-wrap gap-2 mb-3"><a v-for="lk in g.links" :key="lk.url" :href="lk.url" target="_blank" class="text-[11px] font-semibold text-blu bg-blu/10 px-3 py-1.5 rounded-lg"><i class="fas fa-external-link-alt mr-1"></i>{{lk.label}}</a></div>
+      <div v-if="g.links && g.links.length" class="flex gap-1.5 overflow-x-auto hide-scroll mb-3"><a v-for="lk in g.links" :key="lk.url" :href="lk.url" target="_blank" class="flex-shrink-0 text-[10px] font-semibold px-3 py-1.5 rounded-lg whitespace-nowrap" :class="linkStyle(lk.type||'Official')"><i :class="linkIcon(lk.type||'Official')" class="mr-1"></i>{{lk.label||lk.type||'Link'}}</a></div>
     </div>
-    <div v-if="g.lat" class="border-t border-cream"><iframe :src="'https://www.openstreetmap.org/export/embed.html?bbox='+g.bbox+'&layer=mapnik&marker='+g.lat+','+g.lon" class="w-full" style="height:200px;border:0" loading="lazy"></iframe></div>
   </div>
 </div>
 
 <!-- Guide Edit Modal -->
 <div v-if="showGuideModal" class="fixed inset-0 z-50 flex items-end justify-center modal-overlay" @click.self="showGuideModal=false">
-  <div class="bg-white w-full max-w-md rounded-t-3xl p-5 slide-up max-h-[85vh] overflow-y-auto">
+  <div class="bg-white w-full max-w-md rounded-t-3xl p-5 pb-24 slide-up max-h-[85vh] overflow-y-auto">
     <div class="flex justify-between items-center mb-4">
       <h3 class="text-lg font-bold font-serif text-blu-dark">{{editingGuide?'Edit Guide':'Add Guide'}}</h3>
       <button @click="showGuideModal=false" class="w-8 h-8 rounded-full bg-cream flex items-center justify-center text-txt-light"><i class="fas fa-times"></i></button>
@@ -410,8 +422,16 @@ select.sel-style{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://w
       <i class="fas fa-camera"></i> Add Photo
       <input type="file" accept="image/*" @change="handleGuidePhoto" class="hidden" multiple>
     </label>
-    <label class="text-[11px] font-bold text-txt-light uppercase">Links (label|url per line)</label>
-    <textarea v-model="gForm.linksStr" rows="2" class="w-full px-3 py-2.5 rounded-xl bg-cream border-2 border-cream-dark text-sm outline-none focus:border-blu mb-4 mt-1 resize-none" placeholder="Official|https://..."></textarea>
+    <label class="text-[11px] font-bold text-txt-light uppercase">Reference Links 參考連結</label>
+    <div v-for="(lk,li) in gForm.links" :key="li" class="flex gap-1 mb-1 mt-1">
+      <select v-model="lk.type" class="sel-style w-24 px-2 py-2 rounded-lg bg-cream border border-cream-dark text-[11px] outline-none flex-shrink-0">
+        <option>Reviews</option><option>Instagram</option><option>Rednote</option><option>Blog</option><option>Official</option><option>Other</option>
+      </select>
+      <input v-if="lk.type==='Other'" v-model="lk.label" class="w-16 px-2 py-2 rounded-lg bg-cream border border-cream-dark text-[11px] outline-none flex-shrink-0" placeholder="Label">
+      <input v-model="lk.url" class="flex-1 px-2 py-2 rounded-lg bg-cream border border-cream-dark text-[11px] outline-none" placeholder="https://...">
+      <button @click="gForm.links.splice(li,1)" class="text-red-400 text-xs px-1"><i class="fas fa-times"></i></button>
+    </div>
+    <button @click="gForm.links.push({type:'Official',label:'',url:''})" class="text-[11px] text-blu font-semibold mt-1 mb-4 block"><i class="fas fa-plus mr-1"></i>Add Link</button>
     <button @click="saveGuide" class="w-full py-3 rounded-xl bg-blu text-white font-bold text-sm mb-2"><i class="fas fa-check mr-2"></i>Save</button>
     <button v-if="editingGuide" @click="deleteGuide" class="w-full py-3 rounded-xl bg-red-50 text-red-500 font-bold text-sm border border-red-200"><i class="fas fa-trash mr-2"></i>Delete</button>
   </div>
@@ -639,9 +659,22 @@ select.sel-style{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://w
   <div class="bg-white rounded-2xl shadow-sm p-4 mb-4">
     <div class="flex justify-between items-center mb-3">
       <h3 class="text-sm font-bold text-blu-dark"><i class="fas fa-ticket-alt mr-2"></i>Booked Tickets & Docs</h3>
-      <button @click="addTicketDoc" class="text-[10px] text-blu font-semibold"><i class="fas fa-plus mr-1"></i>Add</button>
+      <div class="flex items-center gap-2">
+        <button v-if="!tdLocked&&tdPw" @click="tdLocked=true" class="text-[10px] text-txt-light font-semibold"><i class="fas fa-lock mr-1"></i>Lock</button>
+        <button v-if="!tdLocked" @click="addTicketDoc" class="text-[10px] text-blu font-semibold"><i class="fas fa-plus mr-1"></i>Add</button>
+      </div>
     </div>
-    <div v-for="td in ticketDocs" :key="td.id" class="py-3 border-b border-cream last:border-0">
+    <!-- Password Lock Screen -->
+    <div v-if="tdLocked&&tdPw" class="text-center py-8">
+      <div class="text-4xl mb-3 opacity-30"><i class="fas fa-lock"></i></div>
+      <div class="text-sm text-txt-light mb-4">Enter password to view documents</div>
+      <div class="flex gap-2 max-w-[240px] mx-auto">
+        <input v-model="tdPwInput" type="password" @keyup.enter="unlockTD" placeholder="Password" class="flex-1 px-3 py-2.5 rounded-xl bg-cream border-2 border-cream-dark text-sm outline-none focus:border-blu text-center">
+        <button @click="unlockTD" class="px-4 rounded-xl bg-blu text-white text-sm font-bold"><i class="fas fa-unlock"></i></button>
+      </div>
+      <div v-if="tdPwErr" class="text-xs text-red-500 mt-2">Wrong password</div>
+    </div>
+    <div v-for="td in ticketDocs" v-show="!tdLocked||!tdPw" :key="td.id" class="py-3 border-b border-cream last:border-0">
       <div class="flex items-start gap-3">
         <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg flex-shrink-0" :class="td.type==='qr'?'bg-purple-100':'bg-blu/10'">
           <i :class="td.type==='qr'?'fas fa-qrcode text-purple-500':td.type==='pdf'?'fas fa-file-pdf text-red-400':td.type==='photo'?'fas fa-image text-blu':'fas fa-link text-grn'" class="text-lg"></i>
@@ -658,10 +691,12 @@ select.sel-style{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://w
           <button @click="delTicketDoc(td.id)" class="w-7 h-7 rounded-lg bg-red-50 flex items-center justify-center text-red-400 text-xs"><i class="fas fa-times"></i></button>
         </div>
       </div>
-      <!-- Preview image if photo type -->
-      <img v-if="td.thumb" :src="td.thumb" class="w-full h-32 object-cover rounded-xl mt-2">
+      <!-- Preview thumbnails -->
+      <div v-if="(td.thumbs&&td.thumbs.length)||(td.thumb)" class="flex gap-2 mt-2 overflow-x-auto hide-scroll">
+        <img v-for="(ph,pi) in (td.thumbs&&td.thumbs.length?td.thumbs:(td.thumb?[td.thumb]:[]))" :key="pi" :src="ph" class="w-16 h-16 object-cover rounded-xl cursor-zoom-in flex-shrink-0 border-2 border-cream-dark" @click="openGallery(td.thumbs&&td.thumbs.length?td.thumbs:[td.thumb],pi)">
+      </div>
     </div>
-    <div v-if="!ticketDocs.length" class="text-center py-6 text-txt-light">
+    <div v-if="!ticketDocs.length" v-show="!tdLocked||!tdPw" class="text-center py-6 text-txt-light">
       <i class="fas fa-ticket-alt text-2xl mb-2 opacity-30"></i><div class="text-xs">No tickets saved yet. Add your booking confirmations, QR codes, and vouchers here.</div>
     </div>
   </div>
@@ -681,7 +716,7 @@ select.sel-style{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://w
 
 <!-- Ticket Doc Modal -->
 <div v-if="showTDModal" class="fixed inset-0 z-50 flex items-end justify-center modal-overlay" @click.self="showTDModal=false">
-  <div class="bg-white w-full max-w-md rounded-t-3xl p-5 slide-up max-h-[85vh] overflow-y-auto">
+  <div class="bg-white w-full max-w-md rounded-t-3xl p-5 pb-24 slide-up max-h-[85vh] overflow-y-auto">
     <div class="flex justify-between items-center mb-4">
       <h3 class="text-lg font-bold font-serif text-blu-dark">{{editingTD?'Edit':'Add'}} Ticket/Doc</h3>
       <button @click="showTDModal=false" class="w-8 h-8 rounded-full bg-cream flex items-center justify-center text-txt-light"><i class="fas fa-times"></i></button>
@@ -702,24 +737,31 @@ select.sel-style{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://w
     <input v-model="tdForm.ref" class="w-full px-3 py-2.5 rounded-xl bg-cream border-2 border-cream-dark text-sm outline-none focus:border-blu mb-3 mt-1" placeholder="e.g. TSZ240489">
     <label class="text-[11px] font-bold text-txt-light uppercase">URL (Google Drive / Website)</label>
     <input v-model="tdForm.url" class="w-full px-3 py-2.5 rounded-xl bg-cream border-2 border-cream-dark text-sm outline-none focus:border-blu mb-3 mt-1" placeholder="https://drive.google.com/...">
-    <label class="text-[11px] font-bold text-txt-light uppercase">Photo / Screenshot</label>
-    <div class="flex gap-2 mb-3 mt-1">
-      <label class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-cream border-2 border-dashed border-cream-dark text-sm text-txt-light cursor-pointer">
-        <i class="fas fa-camera"></i> Upload Image
-        <input type="file" accept="image/*" @change="handleTDPhoto" class="hidden">
+    <label class="text-[11px] font-bold text-txt-light uppercase">Photos / Screenshots</label>
+    <div class="mb-3 mt-1">
+      <div v-if="tdForm.thumbs.length" class="flex gap-2 flex-wrap mb-2">
+        <div v-for="(ph,pi) in tdForm.thumbs" :key="pi" class="relative">
+          <img :src="ph" class="w-16 h-16 rounded-xl object-cover">
+          <button @click="tdForm.thumbs.splice(pi,1)" class="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center text-[9px]"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+      <label class="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-cream border-2 border-dashed border-cream-dark text-sm text-txt-light cursor-pointer">
+        <i class="fas fa-camera"></i> Upload Images
+        <input type="file" accept="image/*" @change="handleTDPhoto" class="hidden" multiple>
       </label>
-      <img v-if="tdForm.thumb" :src="tdForm.thumb" class="w-14 h-14 rounded-xl object-cover">
     </div>
     <label class="text-[11px] font-bold text-txt-light uppercase">Notes</label>
     <input v-model="tdForm.notes" class="w-full px-3 py-2.5 rounded-xl bg-cream border-2 border-cream-dark text-sm outline-none focus:border-blu mb-4 mt-1" placeholder="Additional info...">
-    <button @click="saveTD" class="w-full py-3 rounded-xl bg-blu text-white font-bold text-sm"><i class="fas fa-check mr-2"></i>Save</button>
+    <button @click="saveTD" class="w-full py-3 rounded-xl bg-blu text-white font-bold text-sm mb-2"><i class="fas fa-check mr-2"></i>Save</button>
+    <button v-if="editingTD" @click="delTicketDoc(editingTD.id);showTDModal=false" class="w-full py-3 rounded-xl bg-red-50 text-red-500 font-bold text-sm border border-red-200"><i class="fas fa-trash mr-2"></i>Delete</button>
   </div>
 </div>
+
 
 </div>
 
 <!-- BOTTOM NAV -->
-<nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-cream-dark z-50 nav-safe max-w-md mx-auto">
+<nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-cream-dark z-40 nav-safe max-w-md mx-auto">
   <div class="flex justify-around py-2">
     <button v-for="t in tabs" :key="t.k" @click="tab=t.k" class="flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-all" :class="tab===t.k?'text-blu':'text-txt-light'">
       <i :class="t.icon" class="text-lg"></i><span class="text-[10px] font-semibold">{{t.l}}</span>
@@ -737,7 +779,7 @@ select.sel-style{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://w
 // 🔥 FIREBASE CONFIG — Replace with your project config from Firebase Console
 const firebaseConfig={apiKey:"AIzaSyDrdVmlCeh_PveSaLImFHgXITiCbBVzUiE",authDomain:"europe-trip-2026-888.firebaseapp.com",projectId:"europe-trip-2026-888",storageBucket:"europe-trip-2026-888.firebasestorage.app",messagingSenderId:"1030913319095",appId:"1:1030913319095:web:5639f1b0b275a4a2fe6d32"};
 firebase.initializeApp(firebaseConfig);const fbDb=firebase.firestore();const fbAuth=firebase.auth();
-const _skip={};const fbSave=(key,data)=>{if(_skip[key]>0){_skip[key]--;return}fbDb.collection('trip').doc(key).set({items:JSON.parse(JSON.stringify(data))}).catch(e=>console.warn('Sync:',e))};
+const _skip={};const _lastWrite={};const fbSave=(key,data)=>{if(_skip[key]>0){_skip[key]--;return}_lastWrite[key]=Date.now();fbDb.collection('trip').doc(key).set({items:JSON.parse(JSON.stringify(data))}).catch(e=>console.warn('Sync:',e))};
 </script>
 <script>
 const {createApp,ref,computed,reactive,onMounted,watch} = Vue;
@@ -773,6 +815,7 @@ const isBooked=(t)=>{if(!t)return false;const l=t.toLowerCase();return l.include
 // Link styling helpers
 const linkIcon=(type)=>({'Reviews':'fas fa-star','Instagram':'fab fa-instagram','Rednote':'fas fa-book','Blog':'fas fa-blog','Official':'fas fa-globe','Other':'fas fa-link'}[type]||'fas fa-link');
 const linkStyle=(type)=>({'Reviews':'text-gld bg-gld/10','Instagram':'text-pink-500 bg-pink-50','Rednote':'text-red-500 bg-red-50','Blog':'text-blu bg-blu/10','Official':'text-grn bg-grn/10','Other':'text-txt-light bg-cream'}[type]||'text-txt-light bg-cream');
+const fixUrl=(u)=>{if(!u)return u;u=u.trim();if(u&&!/^https?:\/\//i.test(u))u='https://'+u;return u};
 
 // Morning Call edit
 const showMCModal=ref(false);
@@ -834,13 +877,22 @@ const transportModes=[{k:'walk',icon:'🚶',l:'Walk'},{k:'car',icon:'🚗',l:'Dr
 const tModeIcon=(m)=>({walk:'🚶',car:'🚗',transit:'🚆',bus:'🚌'}[m]||'🚶');
 const getTransport=(idx)=>{const prev=filteredPlan.value[idx-1];if(!prev||!prev.tMode)return null;return{icon:tModeIcon(prev.tMode),time:prev.tTime||''}};
 const firstTransport=computed(()=>{const items=filteredPlan.value;if(!items.length||items[0].cat==='flight')return null;const f=items[0];if(f.tMode&&f.tTime)return{icon:tModeIcon(f.tMode),time:f.tTime};return null});
+const matchedGuide=(item)=>{if(item.guideId){const g=guides.value.find(g=>g.id===item.guideId);if(g)return g}const n=(item.name||'').toLowerCase();if(n.length<4)return null;return guides.value.find(g=>{const t=(g.title||'').toLowerCase();if(t.length<4)return false;if(n.includes(t)||t.includes(n))return true;const nw=n.split(/[\s&·,+\-]+/).filter(w=>w.length>=5);const tw=t.split(/[\s&·,+\-]+/).filter(w=>w.length>=5);return nw.some(a=>tw.some(b=>a.includes(b)||b.includes(a)))})||null};
+const goToGuide=(g)=>{if(!g)return;selGuideTag.value='All';tab.value='guide';setTimeout(()=>{const el=document.getElementById('guide-'+g.id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},150)};
 
-const weatherData={0:{icon:'⛅',desc:'Partly cloudy',temp:16,feels:14},1:{icon:'🌤',desc:'Mostly sunny',temp:17,feels:15},2:{icon:'☀️',desc:'Sunny',temp:19,feels:18},3:{icon:'⛅',desc:'Partly cloudy',temp:18,feels:16},4:{icon:'🌤',desc:'Mostly sunny',temp:20,feels:19},5:{icon:'☀️',desc:'Clear skies',temp:21,feels:20},6:{icon:'🌤',desc:'Mostly sunny',temp:22,feels:21},7:{icon:'⛅',desc:'Partly cloudy',temp:20,feels:18},8:{icon:'🌧',desc:'Light rain possible',temp:17,feels:14},9:{icon:'☀️',desc:'Sunny',temp:21,feels:20},10:{icon:'🌤',desc:'Mostly sunny',temp:22,feels:21},11:{icon:'⛅',desc:'Partly cloudy',temp:20,feels:18}};
-const weatherForDay=computed(()=>weatherData[selDay.value]||{icon:'☀️',desc:'Fair',temp:20,feels:18});
+const weatherData=ref({0:{icon:'⛅',desc:'Partly cloudy',temp:16,feels:14},1:{icon:'🌤',desc:'Mostly sunny',temp:17,feels:15},2:{icon:'☀️',desc:'Sunny',temp:19,feels:18},3:{icon:'⛅',desc:'Partly cloudy',temp:18,feels:16},4:{icon:'🌤',desc:'Mostly sunny',temp:20,feels:19},5:{icon:'☀️',desc:'Clear skies',temp:21,feels:20},6:{icon:'🌤',desc:'Mostly sunny',temp:22,feels:21},7:{icon:'⛅',desc:'Partly cloudy',temp:20,feels:18},8:{icon:'🌧',desc:'Light rain possible',temp:17,feels:14},9:{icon:'☀️',desc:'Sunny',temp:21,feels:20},10:{icon:'🌤',desc:'Mostly sunny',temp:22,feels:21},11:{icon:'⛅',desc:'Partly cloudy',temp:20,feels:18}});
+const weatherForDay=computed(()=>weatherData.value[selDay.value]||{icon:'☀️',desc:'Fair',temp:20,feels:18});
+const wmoIcon=(c)=>{if(c<=1)return'☀️';if(c<=2)return'⛅';if(c<=3)return'☁️';if(c<=48)return'🌫';if(c<=55)return'🌦';if(c<=67)return'🌧';if(c<=77)return'❄️';if(c<=82)return'🌧';return'⛈'};
+const wmoDesc=(c)=>{if(c===0)return'Clear sky';if(c===1)return'Mainly clear';if(c===2)return'Partly cloudy';if(c===3)return'Overcast';if(c<=48)return'Foggy';if(c<=55)return'Drizzle';if(c<=67)return'Rainy';if(c<=77)return'Snow';if(c<=82)return'Rain showers';return'Thunderstorm'};
+const fetchWeather=async()=>{const cities=[{days:[0],lat:50.85,lon:4.35,tz:'Europe/Brussels',s:'2026-05-02',e:'2026-05-02'},{days:[1,2,3,4,5],lat:52.37,lon:4.90,tz:'Europe/Amsterdam',s:'2026-05-03',e:'2026-05-07'},{days:[6,7,8,9,10,11],lat:48.86,lon:2.35,tz:'Europe/Paris',s:'2026-05-08',e:'2026-05-13'}];for(const ct of cities){try{const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude='+ct.lat+'&longitude='+ct.lon+'&daily=temperature_2m_max,apparent_temperature_max,weather_code&start_date='+ct.s+'&end_date='+ct.e+'&timezone='+ct.tz);const d=await r.json();if(d.daily&&d.daily.weather_code){ct.days.forEach((di,i)=>{if(i<d.daily.time.length){weatherData.value[di]={icon:wmoIcon(d.daily.weather_code[i]),desc:wmoDesc(d.daily.weather_code[i]),temp:Math.round(d.daily.temperature_2m_max[i]),feels:Math.round(d.daily.apparent_temperature_max[i])}}})}}catch(e){}}};
 
 // Drag
 const dragItem=ref(null);const dragOverId=ref(null);
-const previewPhoto=ref(null);
+const previewPhoto=ref(null);const previewPhotos=ref([]);const previewIdx=ref(0);
+const openGallery=(photos,idx)=>{previewPhotos.value=photos;previewIdx.value=idx||0;previewPhoto.value=photos[idx||0]};
+const galleryPrev=()=>{if(previewPhotos.value.length>1){previewIdx.value=(previewIdx.value-1+previewPhotos.value.length)%previewPhotos.value.length;previewPhoto.value=previewPhotos.value[previewIdx.value]}};
+const galleryNext=()=>{if(previewPhotos.value.length>1){previewIdx.value=(previewIdx.value+1)%previewPhotos.value.length;previewPhoto.value=previewPhotos.value[previewIdx.value]}};
+const closeGallery=()=>{previewPhoto.value=null;previewPhotos.value=[];previewIdx.value=0};
 const dragStart=(e,item)=>{dragItem.value=item;e.dataTransfer.effectAllowed='move'};
 const dragOver=(e,item)=>{if(dragItem.value&&dragItem.value.id!==item.id)dragOverId.value=item.id};
 const dragEnd=()=>{dragItem.value=null;dragOverId.value=null};
@@ -848,13 +900,13 @@ const drop=(e,target)=>{if(!dragItem.value||dragItem.value.id===target.id)return
 
 // Edit Modal
 const showModal=ref(false);const editingItem=ref(null);const showDeleteConfirm=ref(false);
-const form=reactive({name:'',zh:'',cat:'attraction',time:'',hours:'',ticket:'',addr:'',notes:'',tMode:'walk',tTime:'',photo:'',refLinks:[]});
+const form=reactive({name:'',zh:'',cat:'attraction',time:'',hours:'',ticket:'',addr:'',notes:'',tMode:'walk',tTime:'',photos:[],refLinks:[],guideId:''});
 
-const handleCardPhoto=(ev)=>{const file=ev.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=(e)=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');const max=400;let w=img.width,h=img.height;if(w>h){h=h*(max/w);w=max}else{w=w*(max/h);h=max}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);form.photo=c.toDataURL('image/jpeg',0.7)};img.src=e.target.result};reader.readAsDataURL(file)};
+const handleCardPhoto=(ev)=>{const files=ev.target.files;if(!files||!files.length)return;Array.from(files).forEach(file=>{const reader=new FileReader();reader.onload=(e)=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');const max=1200;let w=img.width,h=img.height;if(w>max||h>max){if(w>h){h=h*(max/w);w=max}else{w=w*(max/h);h=max}}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);form.photos.push(c.toDataURL('image/jpeg',0.92))};img.src=e.target.result};reader.readAsDataURL(file)});ev.target.value=''};
 
-const addNewItem=()=>{editingItem.value=null;Object.assign(form,{name:'',zh:'',cat:'attraction',time:'',hours:'',ticket:'',addr:'',notes:'',tMode:'walk',tTime:'',photo:'',refLinks:[]});showModal.value=true};
-const editItem=(item)=>{editingItem.value=item;Object.assign(form,{name:item.name||'',zh:item.zh||'',cat:item.cat||'attraction',time:item.time||'',hours:item.hours||'',ticket:item.ticket||'',addr:item.addr||'',notes:item.notes||'',tMode:item.tMode||'walk',tTime:item.tTime||'',photo:item.photo||'',refLinks:JSON.parse(JSON.stringify(item.refLinks||[]))});showModal.value=true};
-const saveForm=()=>{if(!form.name.trim())return;const data={name:form.name,zh:form.zh,cat:form.cat,catL:catLabel(form.cat),time:form.time,hours:form.hours,ticket:form.ticket,addr:form.addr,notes:form.notes,tMode:form.tMode,tTime:form.tTime,photo:form.photo,refLinks:form.refLinks.filter(r=>r.url)};if(editingItem.value)Object.assign(editingItem.value,data);else plan.value.push({id:nid(),day:selDay.value,...data});showModal.value=false};
+const addNewItem=()=>{editingItem.value=null;Object.assign(form,{name:'',zh:'',cat:'attraction',time:'',hours:'',ticket:'',addr:'',notes:'',tMode:'walk',tTime:'',photos:[],refLinks:[],guideId:''});showModal.value=true};
+const editItem=(item)=>{editingItem.value=item;Object.assign(form,{name:item.name||'',zh:item.zh||'',cat:item.cat||'attraction',time:item.time||'',hours:item.hours||'',ticket:item.ticket||'',addr:item.addr||'',notes:item.notes||'',tMode:item.tMode||'walk',tTime:item.tTime||'',photos:[...(item.photos||(item.photo?[item.photo]:[]))],refLinks:JSON.parse(JSON.stringify(item.refLinks||[])),guideId:item.guideId||''});showModal.value=true};
+const saveForm=()=>{if(!form.name.trim())return;const data={name:form.name,zh:form.zh,cat:form.cat,catL:catLabel(form.cat),time:form.time,hours:form.hours,ticket:form.ticket,addr:form.addr,notes:form.notes,tMode:form.tMode,tTime:form.tTime,photos:[...form.photos],refLinks:form.refLinks.filter(r=>r.url).map(r=>({...r,url:fixUrl(r.url)})),guideId:form.guideId};if(editingItem.value)Object.assign(editingItem.value,data);else plan.value.push({id:nid(),day:selDay.value,...data});showModal.value=false};
 const confirmDelete=()=>{showDeleteConfirm.value=true};
 const deleteItem=()=>{if(editingItem.value)plan.value=plan.value.filter(i=>i.id!==editingItem.value.id);showDeleteConfirm.value=false;showModal.value=false;editingItem.value=null};
 
@@ -880,11 +932,11 @@ const filteredGuides=computed(()=>selGuideTag.value==='All'?guides.value:guides.
 const linkifyGuide=(text)=>{if(!text)return '';return text.replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" class="text-blu font-semibold underline break-all">$1</a>')};
 
 const showGuideModal=ref(false);const editingGuide=ref(null);
-const gForm=reactive({title:'',zh:'',city:'',day:'',icon:'🏛',tagsStr:'',ticketPrice:'',ticketBooked:false,desc:'',tips:'',avoid:'',linksStr:'',photos:[]});
-const addGuide=()=>{editingGuide.value=null;Object.assign(gForm,{title:'',zh:'',city:'',day:'',icon:'🏛',tagsStr:'',ticketPrice:'',ticketBooked:false,desc:'',tips:'',avoid:'',linksStr:'',photos:[]});showGuideModal.value=true};
-const editGuide=(g)=>{editingGuide.value=g;Object.assign(gForm,{title:g.title,zh:g.zh||'',city:g.city||'',day:g.day||'',icon:g.icon||'🏛',tagsStr:(g.tags||[]).join(', '),ticketPrice:g.ticketPrice||'',ticketBooked:!!g.ticketBooked,desc:g.desc||'',tips:g.tips||'',avoid:g.avoid||'',linksStr:(g.links||[]).map(l=>l.label+'|'+l.url).join('\n'),photos:[...(g.photos||[])]});showGuideModal.value=true};
+const gForm=reactive({title:'',zh:'',city:'',day:'',icon:'🏛',tagsStr:'',ticketPrice:'',ticketBooked:false,desc:'',tips:'',avoid:'',links:[],photos:[]});
+const addGuide=()=>{editingGuide.value=null;Object.assign(gForm,{title:'',zh:'',city:'',day:'',icon:'🏛',tagsStr:'',ticketPrice:'',ticketBooked:false,desc:'',tips:'',avoid:'',links:[],photos:[]});showGuideModal.value=true};
+const editGuide=(g)=>{editingGuide.value=g;Object.assign(gForm,{title:g.title,zh:g.zh||'',city:g.city||'',day:g.day||'',icon:g.icon||'🏛',tagsStr:(g.tags||[]).join(', '),ticketPrice:g.ticketPrice||'',ticketBooked:!!g.ticketBooked,desc:g.desc||'',tips:g.tips||'',avoid:g.avoid||'',links:(g.links||[]).map(l=>({type:l.type||'Official',label:l.label||'',url:l.url||''})),photos:[...(g.photos||[])]});showGuideModal.value=true};
 const handleGuidePhoto=(ev)=>{const files=ev.target.files;if(!files)return;Array.from(files).forEach(file=>{const reader=new FileReader();reader.onload=(e)=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');const max=600;let w=img.width,h=img.height;if(w>h){h=h*(max/w);w=max}else{w=w*(max/h);h=max}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);gForm.photos.push(c.toDataURL('image/jpeg',0.7))};img.src=e.target.result};reader.readAsDataURL(file)});ev.target.value=''};
-const saveGuide=()=>{if(!gForm.title.trim())return;const tags=gForm.tagsStr.split(',').map(t=>t.trim()).filter(Boolean);const links=gForm.linksStr.split('\n').map(l=>{const p=l.split('|');return p.length>=2?{label:p[0].trim(),url:p[1].trim()}:null}).filter(Boolean);const data={title:gForm.title,zh:gForm.zh,city:gForm.city,day:gForm.day,icon:gForm.icon,tags,ticketPrice:gForm.ticketPrice,ticketBooked:gForm.ticketBooked,desc:gForm.desc,tips:gForm.tips,avoid:gForm.avoid,links,photos:[...gForm.photos]};if(editingGuide.value)Object.assign(editingGuide.value,data);else guides.value.push({id:ngid(),...data});showGuideModal.value=false};
+const saveGuide=()=>{if(!gForm.title.trim())return;const tags=gForm.tagsStr.split(',').map(t=>t.trim()).filter(Boolean);const links=gForm.links.filter(l=>l.url).map(l=>({type:l.type,label:l.label,url:fixUrl(l.url)}));const data={title:gForm.title,zh:gForm.zh,city:gForm.city,day:gForm.day,icon:gForm.icon,tags,ticketPrice:gForm.ticketPrice,ticketBooked:gForm.ticketBooked,desc:gForm.desc,tips:gForm.tips,avoid:gForm.avoid,links,photos:[...gForm.photos]};if(editingGuide.value)Object.assign(editingGuide.value,data);else guides.value.push({id:ngid(),...data});showGuideModal.value=false};
 const deleteGuide=()=>{if(editingGuide.value)guides.value=guides.value.filter(g=>g.id!==editingGuide.value.id);showGuideModal.value=false;editingGuide.value=null};
 
 // ===== WALLET =====
@@ -931,12 +983,16 @@ const saveTDs=()=>{try{localStorage.setItem('ticketDocs_v1',JSON.stringify(ticke
 watch(ticketDocs,saveTDs,{deep:true});
 
 const showTDModal=ref(false);const editingTD=ref(null);
-const tdForm=reactive({title:'',day:'',category:'Tour',type:'link',ref:'',url:'',thumb:'',notes:''});
-const handleTDPhoto=(ev)=>{const file=ev.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=(e)=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');const max=400;let w=img.width,h=img.height;if(w>h){h=h*(max/w);w=max}else{w=w*(max/h);h=max}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);tdForm.thumb=c.toDataURL('image/jpeg',0.7)};img.src=e.target.result};reader.readAsDataURL(file)};
-const addTicketDoc=()=>{editingTD.value=null;Object.assign(tdForm,{title:'',day:'',category:'Tour',type:'link',ref:'',url:'',thumb:'',notes:''});showTDModal.value=true};
-const editTicketDoc=(td)=>{editingTD.value=td;Object.assign(tdForm,{title:td.title,day:td.day||'',category:td.category||'Tour',type:td.type||'link',ref:td.ref||'',url:td.url||'',thumb:td.thumb||'',notes:td.notes||''});showTDModal.value=true};
-const saveTD=()=>{if(!tdForm.title.trim())return;const data={title:tdForm.title,day:tdForm.day,category:tdForm.category,type:tdForm.type,ref:tdForm.ref,url:tdForm.url,thumb:tdForm.thumb,notes:tdForm.notes};if(editingTD.value)Object.assign(editingTD.value,data);else ticketDocs.value.push({id:Date.now(),...data});showTDModal.value=false};
+const tdForm=reactive({title:'',day:'',category:'Tour',type:'link',ref:'',url:'',thumbs:[],notes:''});
+const handleTDPhoto=(ev)=>{const files=ev.target.files;if(!files||!files.length)return;Array.from(files).forEach(file=>{const reader=new FileReader();reader.onload=(e)=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');const max=1600;let w=img.width,h=img.height;if(w>max||h>max){if(w>h){h=h*(max/w);w=max}else{w=w*(max/h);h=max}}c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);tdForm.thumbs.push(c.toDataURL('image/png'))};img.src=e.target.result};reader.readAsDataURL(file)});ev.target.value=''};
+const addTicketDoc=()=>{editingTD.value=null;Object.assign(tdForm,{title:'',day:'',category:'Tour',type:'link',ref:'',url:'',thumbs:[],notes:''});showTDModal.value=true};
+const editTicketDoc=(td)=>{editingTD.value=td;Object.assign(tdForm,{title:td.title,day:td.day||'',category:td.category||'Tour',type:td.type||'link',ref:td.ref||'',url:td.url||'',thumbs:[...(td.thumbs||(td.thumb?[td.thumb]:[]))],notes:td.notes||''});showTDModal.value=true};
+const saveTD=()=>{if(!tdForm.title.trim())return;const data={title:tdForm.title,day:tdForm.day,category:tdForm.category,type:tdForm.type,ref:tdForm.ref,url:fixUrl(tdForm.url),thumbs:[...tdForm.thumbs],notes:tdForm.notes};if(editingTD.value)Object.assign(editingTD.value,data);else ticketDocs.value.push({id:Date.now(),...data});showTDModal.value=false};
 const delTicketDoc=(id)=>{ticketDocs.value=ticketDocs.value.filter(t=>t.id!==id)};
+const tdLocked=ref(false);const tdPw=ref('');const tdPwInput=ref('');const tdPwErr=ref(false);const showPwModal=ref(false);const newPwInput=ref('');
+const unlockTD=()=>{if(tdPwInput.value===tdPw.value){tdLocked.value=false;tdPwErr.value=false;tdPwInput.value=''}else{tdPwErr.value=true}};
+const setTDPw=()=>{if(!newPwInput.value.trim())return;tdPw.value=newPwInput.value.trim();fbDb.collection('trip').doc('config').set({tdPassword:tdPw.value},{merge:true}).catch(()=>{});newPwInput.value='';showPwModal.value=false;tdLocked.value=false};
+const removeTDPw=()=>{tdPw.value='';tdLocked.value=false;fbDb.collection('trip').doc('config').set({tdPassword:''},{merge:true}).catch(()=>{});showPwModal.value=false};
 
 // ===== LISTS =====
 const packList=ref([{id:1,text:'Passport + copies of bookings',done:false},{id:2,text:'EU plug adapter',done:false},{id:3,text:'Portable charger',done:false},{id:4,text:'Walking shoes (broken-in!)',done:false},{id:5,text:'Light jacket + rain jacket',done:false},{id:6,text:'Warm layer for Mont Saint-Michel',done:false},{id:7,text:'5 days mix-and-match clothes',done:false},{id:8,text:'Smart outfit for farewell dinner',done:false},{id:9,text:'Prescription meds + first-aid',done:false},{id:10,text:'Motion sickness pills',done:false},{id:11,text:'Sunscreen SPF 30+',done:false},{id:12,text:'Reusable water bottle',done:false},{id:13,text:'Travel insurance card',done:false},{id:14,text:'€200 cash (emergency)',done:false},{id:15,text:'Download Uber + offline Maps',done:false},{id:16,text:'Walking stick (senior)',done:false},{id:17,text:'Seat cushion (senior)',done:false},{id:18,text:'Earphones for audio guides',done:false}]);
@@ -964,17 +1020,17 @@ const linkify=(text)=>text.replace(/(https?:\/\/[^\s]+)/g,'<a href="$1" target="
 
 const hotels=[{n:'OPO Hotel',c:'Brussels',d:'May 2 (1 night)',r:'Deluxe Double/Twin'},{n:'Renaissance Amsterdam Hotel',c:'Amsterdam',d:'May 3–7 (4 nights)',r:'Family Room, 1 King, Sofa bed'},{n:'Citadines Les Halles Paris',c:'Paris',d:'May 7–13 (6 nights)',r:'1-Bedroom Apartment Deluxe'}];
 
-onMounted(()=>{loadExp();loadPack();loadShop();loadMemo();try{const c=JSON.parse(localStorage.getItem('exRate'));if(c?.r){exRate.value=c.r}}catch(e){}
-fbAuth.signInAnonymously().then(()=>{const listen=(k,r,w)=>{fbDb.collection('trip').doc(k).onSnapshot(doc=>{if(doc.exists&&doc.data().items){if(w)_skip[k]=(_skip[k]||0)+1;r.value=doc.data().items}else if(r.value&&(Array.isArray(r.value)?r.value.length>0:true)){fbSave(k,r.value)}})};listen('days',days,false);listen('plan',plan,true);listen('guides',guides,true);listen('expenses',expenses,false);listen('ticketDocs',ticketDocs,true);listen('packList',packList,false);listen('shopItems',shopItems,false);listen('memos',memos,false);fbDb.collection('trip').doc('config').onSnapshot(doc=>{if(doc.exists&&doc.data().exRate!=null)exRate.value=doc.data().exRate})}).catch(e=>console.warn('Firebase:',e))});
+onMounted(()=>{loadExp();loadPack();loadShop();loadMemo();fetchWeather();try{const c=JSON.parse(localStorage.getItem('exRate'));if(c?.r){exRate.value=c.r}}catch(e){}
+fbAuth.signInAnonymously().then(()=>{const listen=(k,r,w)=>{fbDb.collection('trip').doc(k).onSnapshot(doc=>{if(doc.exists&&doc.data().items){if(_lastWrite[k]&&Date.now()-_lastWrite[k]<2000)return;if(w)_skip[k]=(_skip[k]||0)+1;r.value=doc.data().items}else if(r.value&&(Array.isArray(r.value)?r.value.length>0:true)){fbSave(k,r.value)}})};listen('days',days,false);listen('plan',plan,true);listen('guides',guides,true);listen('expenses',expenses,false);listen('ticketDocs',ticketDocs,true);listen('packList',packList,false);listen('shopItems',shopItems,false);listen('memos',memos,false);fbDb.collection('trip').doc('config').onSnapshot(doc=>{if(doc.exists){if(doc.data().exRate!=null)exRate.value=doc.data().exRate;if(doc.data().tdPassword){tdPw.value=doc.data().tdPassword;if(!tdLocked.value&&tdPw.value)tdLocked.value=true}else{tdPw.value='';tdLocked.value=false}}})}).catch(e=>console.warn('Firebase:',e))});
 
 return{tab,tabs,selDay,selCat,days,cats,plan,filteredPlan,openMap,catColor,catLabel,isBooked,linkIcon,linkStyle,
-weatherForDay,getTransport,firstTransport,transportModes,
-dragStart,dragOver,dragEnd,drop,dragOverId,previewPhoto,
+weatherForDay,getTransport,firstTransport,transportModes,matchedGuide,goToGuide,
+dragStart,dragOver,dragEnd,drop,dragOverId,previewPhoto,previewPhotos,previewIdx,openGallery,galleryPrev,galleryNext,closeGallery,
 showModal,editingItem,form,addNewItem,editItem,saveForm,confirmDelete,deleteItem,showDeleteConfirm,handleCardPhoto,
 showMCModal,mcEdit,editMorningCall,saveMC,
 calcExpr,calcEur,calcPress,exRate,doFetchRate,rateFetching,
 expenses,expForm,expIcons,expTotal,expGroupTotal,expPersonalTotal,handleExpPhoto,addExp,delExp,
-ticketDocs,showTDModal,editingTD,tdForm,addTicketDoc,editTicketDoc,saveTD,delTicketDoc,handleTDPhoto,
+ticketDocs,showTDModal,editingTD,tdForm,addTicketDoc,editTicketDoc,saveTD,delTicketDoc,handleTDPhoto,tdLocked,tdPw,tdPwInput,tdPwErr,showPwModal,newPwInput,unlockTD,setTDPw,removeTDPw,
 guides,filteredGuides,guideTags,selGuideTag,linkifyGuide,showGuideModal,editingGuide,gForm,addGuide,editGuide,saveGuide,deleteGuide,handleGuidePhoto,
 packList,newPackItem,checkedCount,togglePack,addPackItem,delPackItem,
 shopItems,shopInput,selShopCat,shopCats,filteredShop,addShop,delShop,saveShop,
